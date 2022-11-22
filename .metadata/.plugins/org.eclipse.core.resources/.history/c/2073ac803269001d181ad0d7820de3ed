@@ -1,0 +1,28 @@
+package stream;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+
+public class CharacterRead extends JFrame implements ActionListener{ //500*600
+	JButton bt;
+	JTextArea area;
+	
+	
+	public CharacterRead() {
+		
+	}
+	
+	public static void main(String[] args) {
+		new CharacterRead();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+	}
+
+}

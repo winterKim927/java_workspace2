@@ -1,0 +1,16 @@
+package basic;
+
+public class ThreadTest extends Thread{
+	int count;
+	
+	//쓰레드로 실행하고픈 코드를 run()에 작성해놓으면
+	//jvm이 알아서 실행여부를 결정해준다
+	public void run() {
+		count++;
+		System.out.println(count);
+	}
+	
+	public static void main(String[] args) {
+		
+	}
+}
