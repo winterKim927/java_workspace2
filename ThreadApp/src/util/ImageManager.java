@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class ImageManager {
 	//이미지에 대한 경로를 전달하면 이미지 객체를 반환하는 메서드 정의
@@ -21,5 +22,21 @@ public class ImageManager {
 			} 
 		}
 		return images;
+	}
+	
+	//이미지의 경로, 원하는 너비, 높이를 입력받아 스케일링된 이미지를 사용한 아이콘을 반환하는 메서드
+	public ImageIcon getIcon(String path, int width, int height) {
+		Class myClass = this.getClass();
+		URL url = myClass.getClassLoader().getResource(path);
+		Image img = null;
+		try {
+			img = ImageIO.read(url);
+			img = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		ImageIcon icon = new ImageIcon(img);
+		
+		return icon;
 	}
 }
