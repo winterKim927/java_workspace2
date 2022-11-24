@@ -6,11 +6,15 @@
 		<item key="wholeword" value="true"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="i"/>
+		<item key="selection" value="main"/>
 		<list key="findhistory">
+			<item value="am"/>
+			<item value="mouse"/>
+			<item value="acc"/>
 			<item value="j"/>
 		</list>
 		<list key="replacehistory">
+			<item value="main"/>
 			<item value="i"/>
 		</list>
 	</section>
