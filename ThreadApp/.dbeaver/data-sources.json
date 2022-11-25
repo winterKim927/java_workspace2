@@ -1,11 +1,14 @@
 {
-	"folders": {},
+	"folders": {
+		"mysql": {}
+	},
 	"connections": {
 		"mysql8-184a84e041c-487d48e6fc3cf857": {
 			"provider": "mysql",
 			"driver": "mysql8",
 			"name": "java",
 			"save-password": true,
+			"folder": "mysql",
 			"configuration": {
 				"host": "localhost",
 				"port": "3306",

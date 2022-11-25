@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -77,6 +79,12 @@ public class PercentIO extends JFrame{
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				closeStream();
+			}
+		});
 	}
 	
 	public void getFileInfo() {
@@ -106,6 +114,17 @@ public class PercentIO extends JFrame{
 				System.out.println("읽은양 " + done);
 				System.out.println("파일크기" + fileSize);
 			}
+			closeStream();
+	}
+	
+	public void closeStream() {
+		if(fis!=null) {
+			try {
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public static void main(String[] args) {
