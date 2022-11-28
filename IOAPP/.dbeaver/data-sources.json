@@ -1,16 +1,36 @@
 {
-	"folders": {},
+	"folders": {
+		"mysql": {},
+		"oracle": {}
+	},
 	"connections": {
-		"oracle_thin-1849e36f7de-3da78b43aa16923b": {
+		"mysql8-184ac8e9425-96bc00ead5c645d": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "java",
+			"save-password": true,
+			"folder": "mysql",
+			"configuration": {
+				"host": "localhost",
+				"port": "3306",
+				"database": "java",
+				"url": "jdbc:mysql://localhost:3306/java",
+				"home": "C:\\Program Files\\MySQL\\MySQL Server 5.7",
+				"type": "dev",
+				"auth-model": "native"
+			}
+		},
+		"oracle_thin-184bc9e513d-5c0274dfed6070e6": {
 			"provider": "oracle",
 			"driver": "oracle_thin",
 			"name": "localhost",
 			"save-password": true,
+			"folder": "oracle",
 			"configuration": {
 				"host": "localhost",
 				"port": "1521",
 				"database": "XE",
-				"url": "jdbc:oracle:thin:@localhost:1521:XE",
+				"url": "jdbc:oracle:thin:@//localhost:1521/XE",
 				"home": "D:\\oraclexe\\app\\oracle\\product\\11.2.0\\server",
 				"type": "dev",
 				"provider-properties": {
@@ -26,25 +46,9 @@
 					"oracle.meta-search-in-synonyms": "false",
 					"oracle.show-date-as-date": "false",
 					"@dbeaver-connection-type@": "BASIC",
-					"@dbeaver-sid-service@": "SID"
+					"@dbeaver-sid-service@": "SERVICE"
 				},
-				"auth-model": "oracle_native"
-			}
-		},
-		"mysql8-184ac8e9425-96bc00ead5c645d": {
-			"provider": "mysql",
-			"driver": "mysql8",
-			"name": "java",
-			"save-password": true,
-			"folder": "mysql",
-			"configuration": {
-				"host": "localhost",
-				"port": "3306",
-				"database": "java",
-				"url": "jdbc:mysql://localhost:3306/java",
-				"home": "C:\\Program Files\\MySQL\\MySQL Server 5.7",
-				"type": "dev",
-				"auth-model": "native",
+				"auth-model": "oracle_native",
 				"handlers": {}
 			}
 		}
