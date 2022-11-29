@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,7 +27,8 @@ import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 
 public class BoardMain2 extends JFrame implements ActionListener{
-	JPanel p_north; 
+	JPanel p_north;
+	JComboBox combo;
 	JTextField t_keyword;
 	JButton bt_search;
 	
@@ -53,8 +55,15 @@ public class BoardMain2 extends JFrame implements ActionListener{
 		connect();
 		
 		p_north = new JPanel();
+		combo = new JComboBox();
 		t_keyword = new JTextField(25);
 		bt_search = new JButton("검색");
+		
+		combo.addItem("제목");
+		combo.addItem("작성자");
+		combo.addItem("내용");
+
+		p_north.add(combo);
 		p_north.add(t_keyword);
 		p_north.add(bt_search);
 		add(p_north, BorderLayout.NORTH);
@@ -172,9 +181,16 @@ public class BoardMain2 extends JFrame implements ActionListener{
 		BoardModel2 boardModel = (BoardModel2)model;
 		int result = boardModel.insert(t_title.getText(),t_writer.getText(),t_content.getText());
 		if(result > 0) {
-			boardModel.select();
+			boardModel.select(null,null);
 			table.updateUI();
 		}
+	}
+	
+	public void search() {
+		BoardModel2 boardModel = (BoardModel2)model;
+		String category = combo.getSelectedItem().toString();
+		boardModel.select(boardModel.column[(combo.getSelectedIndex()+1)], t_keyword.getText());
+		table.updateUI();
 	}
 	
 	//상세보기
@@ -190,7 +206,7 @@ public class BoardMain2 extends JFrame implements ActionListener{
 		BoardModel2 boardModel = (BoardModel2)model;
 		int result = boardModel.update(selected_id, t_title2.getText(), t_writer2.getText(), t_content2.getText());
 		if(result != 0) {
-			boardModel.select();
+			boardModel.select(null,null);
 			table.updateUI();
 		} else {
 			System.out.println("업데이트 실패해쪙");
@@ -203,10 +219,9 @@ public class BoardMain2 extends JFrame implements ActionListener{
 			BoardModel2 boardModel = (BoardModel2)model;
 			int result = boardModel.delete(selected_id);
 			if(result > 0) {
-				boardModel.select();
+				boardModel.select(null, null);
 				table.updateUI();
 			}
-			
 		}
 	}
 	
@@ -214,7 +229,7 @@ public class BoardMain2 extends JFrame implements ActionListener{
 		if(e.getSource() == bt_regist) {
 			regist();
 		} else if(e.getSource() == bt_search) {
-			
+			search();
 		} else if(e.getSource() == bt_edit) {
 			edit();
 		} else if(e.getSource() == bt_del) {

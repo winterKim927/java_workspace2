@@ -3,24 +3,32 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
-		<item key="wholeword" value="true"/>
+		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="main"/>
+		<item key="selection" value="west"/>
 		<list key="findhistory">
+			<item value="west"/>
+			<item value="System.out"/>
+			<item value="system.out"/>
+			<item value="box"/>
+			<item value="BoardModel"/>
 			<item value="am"/>
 			<item value="mouse"/>
 			<item value="acc"/>
 			<item value="j"/>
 		</list>
 		<list key="replacehistory">
+			<item value="east"/>
+			<item value="combo"/>
+			<item value="BoardModel2"/>
 			<item value="main"/>
 			<item value="i"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="711"/>
-		<item key="DIALOG_Y_ORIGIN" value="221"/>
+		<item key="DIALOG_X_ORIGIN" value="687"/>
+		<item key="DIALOG_Y_ORIGIN" value="219"/>
 		<item key="DIALOG_WIDTH" value="270"/>
 		<item key="DIALOG_HEIGHT" value="354"/>
 		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-21|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>

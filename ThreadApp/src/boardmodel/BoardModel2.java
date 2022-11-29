@@ -14,14 +14,18 @@ public class BoardModel2 extends AbstractTableModel{
 	int columns = 0;
 	public BoardModel2(BoardMain2 main) {
 		this.main = main;
-		select();
+		select(null, null);
 	}
 	
-	public void select() {
+	public void select(String category, String keyword) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
-		String sql = "select * from board order by board_id desc";
+		String sql = null;
+		if(category == null && keyword ==null) {
+			sql = "select * from board order by board_id desc";
+		} else {
+			sql = "select * from board where "+category+" like '%"+keyword+"%'";
+		}
 		try {
 			pstmt = main.con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			rs = pstmt.executeQuery();
@@ -40,7 +44,6 @@ public class BoardModel2 extends AbstractTableModel{
 				}
 				rs.next();
 			}
-			System.out.println(data[0][3].toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
