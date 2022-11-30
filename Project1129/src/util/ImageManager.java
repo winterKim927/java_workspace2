@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class ImageManager {
-	//이미지에 대한 경로를 전달하면 이미지 객체를 반환하는 메서드 정의
+	//이미지배열에 대한 경로를 전달하면 이미지 객체 배열을 반환하는 메서드 정의
 	public Image[] createImages(String[] imgName) {
 		Class myClass=this.getClass();
 		Image[] images = new Image[imgName.length];
@@ -38,5 +38,19 @@ public class ImageManager {
 		ImageIcon icon = new ImageIcon(img);
 		
 		return icon;
+	}
+	
+	//이미지에 대한 경로를 전달하면 이미지 객체를 반환하는 메서드 정의
+	public Image getImage(String path, int width, int height) {
+		Class myClass=this.getClass();
+		URL url = myClass.getClassLoader().getResource(path);
+		Image image = null;
+		try {
+			image = ImageIO.read(url);
+			image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		return image;
 	}
 }

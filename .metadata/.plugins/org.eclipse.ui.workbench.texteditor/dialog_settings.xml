@@ -6,8 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="west"/>
+		<item key="selection" value="regist"/>
 		<list key="findhistory">
+			<item value="regist"/>
 			<item value="west"/>
 			<item value="System.out"/>
 			<item value="system.out"/>
