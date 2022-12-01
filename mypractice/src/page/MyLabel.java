@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class MyLabel extends JLabel {
 	AppMain main;
@@ -16,8 +17,9 @@ public class MyLabel extends JLabel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println(index);
+				if(index == 1 || index == 2 || main.login)
 				main.showHide(index);
+				else JOptionPane.showMessageDialog(main, "로그인하세요");
 			}
 		});
 	}

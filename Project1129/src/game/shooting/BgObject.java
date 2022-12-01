@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 
 public class BgObject extends GameObject {
 	public BgObject(GamePanel gp,int x, int y, int width, int height, int velX, int velY) {
-		super(gp,x, y, width, height, velX, velY);
+		super(gp, x, y, width, height, velX, velY);
 		image = im.getImage("res/bg.png", width, height);
 	}
 
