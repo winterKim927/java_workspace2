@@ -36,7 +36,7 @@ public class DBManager {
 	
 	public static DBManager getInstance() {
 		if(instance==null) {
-			new DBManager();
+			instance = new DBManager();
 		}
 		return instance;
 	}
@@ -76,6 +76,9 @@ public class DBManager {
 		try {
 			Class.forName(driver);
 			connection = DriverManager.getConnection(url, user, pass);
+			if(connection!=null) {
+				System.out.println("접속완료");
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

@@ -6,8 +6,15 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="props"/>
+		<item key="selection" value="center"/>
 		<list key="findhistory">
+			<item value="center"/>
+			<item value="west"/>
+			<item value="setDateInfo"/>
+			<item value="insert"/>
+			<item value="title"/>
+			<item value="font"/>
+			<item value="setpre"/>
 			<item value="props"/>
 			<item value="showHide"/>
 			<item value="action"/>
@@ -15,18 +22,11 @@
 			<item value="setV"/>
 			<item value="name"/>
 			<item value="regist"/>
-			<item value="west"/>
 			<item value="System.out"/>
-			<item value="system.out"/>
-			<item value="box"/>
-			<item value="BoardModel"/>
-			<item value="am"/>
-			<item value="mouse"/>
-			<item value="acc"/>
 		</list>
 		<list key="replacehistory">
-			<item value="email"/>
 			<item value="east"/>
+			<item value="email"/>
 			<item value="combo"/>
 			<item value="BoardModel2"/>
 			<item value="main"/>

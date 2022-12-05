@@ -7,8 +7,8 @@ import java.awt.Graphics2D;
 
 //요일을 처리하기 위한 셀 
 public class DayCell extends Cell {
-	public DayCell(String title, int fontSize, int x, int y) {
-		super(title, fontSize, x, y);
+	public DayCell(String title, String content, int fontSize, int x, int y) {
+		super(title, content, fontSize, x, y);
 	}
 
 	protected void paintComponent(Graphics g) {

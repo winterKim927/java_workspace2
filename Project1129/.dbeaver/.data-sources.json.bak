@@ -28,7 +28,8 @@
 					"oracle.meta-search-in-synonyms": "false",
 					"oracle.show-date-as-date": "false"
 				},
-				"auth-model": "oracle_native"
+				"auth-model": "oracle_native",
+				"handlers": {}
 			}
 		}
 	},

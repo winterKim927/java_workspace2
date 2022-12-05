@@ -9,17 +9,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class DiaryMain extends JFrame implements ActionListener {
 	DBManager dbManager = DBManager.getInstance();
+	DiaryDAO diaryDAO = new DiaryDAO();
 	JPanel p_west;
 	JComboBox box_yy;
 	JComboBox box_mm;
@@ -49,7 +52,6 @@ public class DiaryMain extends JFrame implements ActionListener {
 	// 현재 사용자가 보게될 날짜 정보!!
 	Calendar currentObj = Calendar.getInstance();
 
-	int mmf;
 
 	public DiaryMain() {
 		// 서쪽 영역
@@ -121,6 +123,7 @@ public class DiaryMain extends JFrame implements ActionListener {
 		setSize(930, 560);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		// setResizable(false); //윈도우 크기 변경 불가
 
 		bt_next.addActionListener(new ActionListener() {
@@ -134,6 +137,8 @@ public class DiaryMain extends JFrame implements ActionListener {
 				adjustYYMM(e);
 			}
 		});
+		
+		bt_regist.addActionListener(this);
 	}
 
 	public void adjustYYMM(ActionEvent e) {
@@ -146,13 +151,14 @@ public class DiaryMain extends JFrame implements ActionListener {
 		int mm = currentObj.get(Calendar.MONTH);
 		currentObj.set(Calendar.MONTH, mm + adjust);
 		calculate();
+		printLog();
 	}
 
 	// 요일 출력
 	public void createDayOfWeek() {
 		// 7개를 생성하여 패널에 부착
 		for (int i = 0; i < dayCells.length; i++) {
-			dayCells[i] = new DayCell(dayTitle[i], 15, 30, 20);
+			dayCells[i] = new DayCell(dayTitle[i], "", 15, 30, 20);
 			p_dayOfWeek.add(dayCells[i]); // 화면에 부착
 		}
 	}
@@ -161,7 +167,7 @@ public class DiaryMain extends JFrame implements ActionListener {
 		int n = 0;
 		for (int i = 0; i < dateCells.length; i++) {
 			for (int j = 0; j < dateCells[i].length; j++) {
-				dateCells[i][j] = new DateCell("", 15, 40, 20);
+				dateCells[i][j] = new DateCell(this, "", "", 13, 40, 10);
 				p_dayOfMonth.add(dateCells[i][j]);
 			}
 		}
@@ -223,14 +229,62 @@ public class DiaryMain extends JFrame implements ActionListener {
 		// getStartDayOfWeek();
 		// getLastDateOfMonth();
 		printDate();
+		//기록된 다이어리 출력
+		printLog();
+	}
+	
+	public void printLog() {
+		int yy = currentObj.get(Calendar.YEAR);
+		int mm = currentObj.get(Calendar.MONTH);
+		List<Diary> diaryList = diaryDAO.selectAll(yy, mm);
+		System.out.println("등록된 다이어리 수는 "+diaryList.size());
+		for (int i = 0; i < dateCells.length; i++) {
+			for (int j = 0; j < dateCells[i].length; j++) {
+				if(dateCells[i][j].title.equals("")==false) {
+					int date = Integer.parseInt(dateCells[i][j].title);
+					for (int x = 0; x < diaryList.size(); x++) {
+						Diary obj = diaryList.get(x);
+						if(obj.getDd() == date) {
+							dateCells[i][j].content = obj.getContent();
+							dateCells[i][j].color = Color.CYAN;
+						}
+					}
+				}
+			}
+		}
+		p_center.repaint();
 	}
 
 	// 재사용을 위해 쿼리만을 전담하는 객체를 별도로 정의하자
 	// == DAO (Data Access Object)
 	public void regist() {
+		//DTO 생성
+		Diary d = new Diary();
 		
+		//UnBoxing
+		int yy = Integer.parseInt(box_yy.getSelectedItem().toString());
+		int mm = Integer.parseInt(box_mm.getSelectedItem().toString());
+		int dd = Integer.parseInt(box_dd.getSelectedItem().toString());
+		String content = area.getText();
+		String icon = box_icon.getSelectedItem().toString();
+		
+		//레코드 한건 채워넣기
+		d.setYy(yy);
+		d.setMm(mm);
+		d.setDd(dd);
+		d.setContent(content);
+		d.setIcon(icon);
+		
+		int result = diaryDAO.insert(d);
+		System.out.println(result);
+		if(result!=0) {
+			JOptionPane.showMessageDialog(this, "등록성공");
+			printLog();
+		} else {
+			System.out.println("쿼리실패");
+		}
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -240,6 +294,20 @@ public class DiaryMain extends JFrame implements ActionListener {
 
 		}
 	}
+	
+	//콤보박스에 날짜 채워넣기
+	public void setDateInfo(String title) {
+		box_yy.removeAllItems();
+		box_mm.removeAllItems();
+		box_dd.removeAllItems();
+		box_icon.removeAllItems();
+		box_yy.addItem(currentObj.get(Calendar.YEAR)); // int => object (Boxing)
+		box_mm.addItem(currentObj.get(Calendar.MONTH));
+		box_dd.addItem(title);
+		box_icon.addItem("압정");
+	}
+	
+	
 
 	public static void main(String[] args) {
 		new DiaryMain();

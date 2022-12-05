@@ -9,9 +9,11 @@ import javax.swing.JPanel;
 
 public class Cell extends JPanel {
 	String title;
+	String content;
 	int fontSize,x,y;
-	public Cell(String title, int fontSize, int x, int y) {
+	public Cell(String title, String content, int fontSize, int x, int y) {
 		this.title = title;
+		this.content = content;
 		this.fontSize = fontSize;
 		this.x = x;
 		this.y = y;
