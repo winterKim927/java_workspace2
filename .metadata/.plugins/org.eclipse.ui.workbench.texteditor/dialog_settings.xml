@@ -6,8 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="center"/>
+		<item key="selection" value="subIdxList"/>
 		<list key="findhistory">
+			<item value="subIdxList"/>
+			<item value="System.out"/>
+			<item value="regist"/>
 			<item value="center"/>
 			<item value="west"/>
 			<item value="setDateInfo"/>
@@ -20,11 +23,9 @@
 			<item value="action"/>
 			<item value="showhide"/>
 			<item value="setV"/>
-			<item value="name"/>
-			<item value="regist"/>
-			<item value="System.out"/>
 		</list>
 		<list key="replacehistory">
+			<item value=""/>
 			<item value="east"/>
 			<item value="email"/>
 			<item value="combo"/>
@@ -34,10 +35,10 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1075"/>
-		<item key="DIALOG_Y_ORIGIN" value="280"/>
+		<item key="DIALOG_X_ORIGIN" value="1348"/>
+		<item key="DIALOG_Y_ORIGIN" value="260"/>
 		<item key="DIALOG_WIDTH" value="270"/>
-		<item key="DIALOG_HEIGHT" value="354"/>
+		<item key="DIALOG_HEIGHT" value="360"/>
 		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-21|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
 	</section>
 </section>

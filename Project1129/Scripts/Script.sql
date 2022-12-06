@@ -108,13 +108,22 @@ INSERT INTO subcategory(SUBCATEGORY_IDX, topcategory_idx, SUBCATEGORY_name)
 VALUES(seq_subcategory.nextval, 4,'슬리퍼'); 
 
 
-CREATE TABLE myproduct(
-myproduct_idx NUMBER PRIMARY KEY
+CREATE TABLE product(
+product_idx NUMBER PRIMARY KEY
 , subcategory_idx NUMBER
-, produck_name varchar2(30)
+, product_name varchar2(30)
 , brand varchar2(30)
-, price NUMBER
-, filename varchar2(30)
-, CONSTRAINT fk_subcategory_myproduct FOREIGN KEY (subcategory_idx) 
+, price NUMBER DEFAULT 0
+, filename varchar2(20)
+, CONSTRAINT fk_subcategory_product FOREIGN KEY (subcategory_idx) 
 	references subcategory(subcategory_idx)
 );
+
+CREATE SEQUENCE seq_product
+INCREMENT BY 1
+START WITH 1;
+
+
+SELECT s.subcategory_idx, subcategory_name, product_idx, product_name, brand, price, filename
+FROM SUBCATEGORY s , PRODUCT p WHERE s.SUBCATEGORY_IDX = p.SUBCATEGORY_IDX;
+

@@ -1,4 +1,4 @@
-package com.edu.shop.model;
+package com.edu.shop.model.repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

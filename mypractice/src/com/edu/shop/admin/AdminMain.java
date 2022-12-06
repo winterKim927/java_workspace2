@@ -12,15 +12,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +26,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -37,22 +33,17 @@ import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-import com.edu.shop.domain.Product;
 import com.edu.shop.domain.SubCategory;
 import com.edu.shop.domain.TopCategory;
-import com.edu.shop.model.repository.ProductDAO;
 import com.edu.shop.model.repository.SubCategoryDAO;
 import com.edu.shop.model.repository.TopCategoryDAO;
-import com.edu.shop.model.table.ProductModel;
-import com.edu.shop.util.DBManager;
 
 import util.StringUtil;
 
 public class AdminMain extends JFrame implements ActionListener{
-	TopCategoryDAO topCategoryDAO;
-	SubCategoryDAO subCategoryDAO;
-	public ProductDAO productDAO;
-	DBManager dbManager = DBManager.getInstance();
+	TopCategoryDAO topDAO = new TopCategoryDAO();
+	SubCategoryDAO subDAO = new SubCategoryDAO();
+	
 	
 	//서쪽 영역 
 	JPanel p_west;
@@ -72,7 +63,6 @@ public class AdminMain extends JFrame implements ActionListener{
 	JComboBox<String> box_category; // 검색 구분
 	JTextField t_keyword;//검색어
 	JButton bt_search; //검색 버튼
-	ProductModel model; //jtable이 표 구성에 참고할 객체
 	JTable table;
 	JScrollPane scroll;
 	
@@ -89,27 +79,23 @@ public class AdminMain extends JFrame implements ActionListener{
 	JButton bt_edit; //
 	JButton bt_del; //
 	
-	//하위카테고리 선택시 담아놓을 subcategory_idx
-	List<Integer> subIdxList = new ArrayList();
-	Image image; //서쪽 영역에서 미리보기될 이미지
-	String dir = "D:\\java_workspace2\\data\\shop\\product\\"; //이미지가 저장되는 위치
-	String filename;
+	URL url;
+	Image image;
+	
 	public AdminMain() {
-		topCategoryDAO = new TopCategoryDAO();
-		subCategoryDAO = new SubCategoryDAO();
-		productDAO = new ProductDAO();
 		//서쪽
 		p_west = new JPanel();
 		box_top = new JComboBox<String>();
 		box_sub = new JComboBox<String>();
 		t_name = new JTextField();
 		t_brand = new JTextField();
-		t_price = new JTextField("0");
+		t_price = new JTextField();
 		preview = new JPanel() {
+			@Override
 			protected void paintComponent(Graphics g) {
 				Graphics2D g2 = (Graphics2D)g;
 				g2.clearRect(0, 0, 140, 140);
-				g2.drawImage(image, 0, 0, 140, 140, null);
+				g2.drawImage(image, 0, 0, 140, 140, AdminMain.this);
 			}
 		};
 		t_url = new JTextField();
@@ -149,7 +135,7 @@ public class AdminMain extends JFrame implements ActionListener{
 		p_search.add(t_keyword);
 		p_search.add(bt_search);
 		
-		table = new JTable(model = new ProductModel(this));
+		table = new JTable(7,6);
 		scroll = new JScrollPane(table);
 		
 		p_center.setLayout(new BorderLayout());
@@ -199,77 +185,66 @@ public class AdminMain extends JFrame implements ActionListener{
 		add(p_center);
 		add(p_east, BorderLayout.EAST);
 		
-		getTopList();
-		
 		setSize(900,500);
 		setVisible(true);
 		setLocationRelativeTo(null);
+		setResizable(false);
+		
+		getTopList();
+		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				dbManager.release(dbManager.getConnection());
 				System.exit(0);
 			}
 		});
+		
 		box_top.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange()==ItemEvent.SELECTED) {
-					getSubList(e);
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					getSubList(e.getItem().toString());
 				}
 			}
 		});
 		
 		bt_preview.addActionListener(this);
-		bt_regist.addActionListener(this);
-		bt_search.addActionListener(this);
-		bt_preview2.addActionListener(this);
-		bt_edit.addActionListener(this);
-		bt_del.addActionListener(this);
 	}
 	
 	public void getTopList() {
-		List<TopCategory> topList = topCategoryDAO.selectAll();
+		List<TopCategory> list = new ArrayList();
+		list = topDAO.selectAll();
 		box_top.addItem("카테고리 선택");
-		for(TopCategory topCategory : topList) {
-			box_top.addItem(topCategory.getTopcategory_name());
+		for (int i = 0; i < list.size(); i++) {
+			box_top.addItem(list.get(i).getTopCategory_name());
 		}
 	}
 	
-	public void getSubList(ItemEvent e) {
-		int topcategory_idx = topCategoryDAO.getTopCategoryIdx(e.getItem().toString());
-		List<SubCategory> subList = subCategoryDAO.selectByTopCategory(topcategory_idx);
+	public void getSubList(String topcategory_name) {
+		int topcategory_idx = topDAO.getTopIdx(topcategory_name);
+		List<SubCategory> list = new ArrayList();
+		list = subDAO.getSelectedSub(topcategory_idx);
 		box_sub.removeAllItems();
-		subIdxList.removeAll(subIdxList);
-		box_sub.addItem("카테고리 선택");
-//		for(SubCategory subCategory : subList) {
-//			box_sub.addItem(subCategory.getSubcategory_name());
-//		}
-		for (int i = 0; i < subList.size(); i++) {
-			SubCategory subCategory = subList.get(i);
-			box_sub.addItem(subCategory.getSubcategory_name());
-			subIdxList.add(subCategory.getSubcategory_idx());
+		box_sub.addItem("하위카테고리선택");
+		for (int i = 0; i < list.size(); i++) {
+			box_sub.addItem(list.get(i).getSubCategory_name());
 		}
 	}
 	
-	public boolean download() {
+	public void download() {
+		String filename = StringUtil.createFileName(t_url.getText());
+		String path = "D:\\java_workspace2\\data\\shop\\product\\";
 		InputStream is = null;
 		FileOutputStream fos = null;
-		boolean flag = false;
 		try {
-			URL url = new URL(t_url.getText());
+			url = new URL(t_url.getText());
 			is = url.openStream();
-			filename = StringUtil.createFileName(url.toString());
-			fos = new FileOutputStream(dir+filename);
+			fos = new FileOutputStream(path+filename);
 			int data = -1;
-			while(true) {
+			while (true) {
 				data = is.read();
-				if(data == -1) break;
+				if(data==-1) break;
 				fos.write(data);
 			}
-			JOptionPane.showMessageDialog(this, "수집완료");
-			flag = true;
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -289,46 +264,14 @@ public class AdminMain extends JFrame implements ActionListener{
 				}
 			}
 		}
-		return flag;
-		
 	}
 	
 	public void preview() {
-		File file = new File(dir+filename);
 		try {
-			image = ImageIO.read(file);
+			image = ImageIO.read(url);
+			preview.repaint();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		preview.repaint();
-	}
-	
-	//모든 상품 레코드 가져오기, 단 하위카테고리와 조인된 상태로
-	public void getProductList() {
-		List productList = productDAO.selectAll();
-		
-	}
-	
-	
-	public void regist() {
-		int index = box_sub.getSelectedIndex();
-		int subcategory_idx = subIdxList.get(index-1);
-		String product_name = t_name.getText();
-		String brand = t_brand.getText();
-		int price = Integer.parseInt(t_price.getText());
-		
-		Product product = new Product();
-		SubCategory subCategory = new SubCategory();
-		product.setSubcategory(subCategory);
-		product.getSubcategory().setSubcategory_idx(subcategory_idx);
-		product.setProduct_name(product_name);
-		product.setBrand(brand);
-		product.setPrice(price);
-		product.setFilename(filename);
-		
-		int result = productDAO.insert(product);
-		if(result != 0) {
-			System.out.println("쿼리 성공");
 		}
 	}
 	
@@ -336,21 +279,8 @@ public class AdminMain extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if(obj.equals(bt_preview)) {
-			if(download()) {
-				preview();	
-			} else {
-				JOptionPane.showMessageDialog(this, "수집실패");
-			}
-		} else if(obj.equals(bt_regist)) {
-			regist();
-		} else if(obj.equals(bt_search)) {
-			
-		} else if(obj.equals(bt_preview2)) {
-			
-		} else if(obj.equals(bt_edit)) {
-			
-		} else if(obj.equals(bt_del)) {
-			
+			download();
+			preview();
 		}
 	}
 	
@@ -358,6 +288,8 @@ public class AdminMain extends JFrame implements ActionListener{
 		new AdminMain();
 	}
 
+		
+	
 }
 
 
