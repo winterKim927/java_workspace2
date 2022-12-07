@@ -139,13 +139,13 @@ public class ProductDAO {
 		return result;
 	}
 	
-	public int delete(int selectedProIndex) {
+	public int delete(Product product) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String sql = "delete product where product_idx = ?";
 		try {
 			pstmt = manager.getConnection().prepareStatement(sql);
-			pstmt.setInt(1, selectedProIndex);
+			pstmt.setInt(1, product.getProduct_idx());
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

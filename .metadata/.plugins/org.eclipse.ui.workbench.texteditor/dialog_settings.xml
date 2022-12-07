@@ -6,23 +6,23 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="subIdxList"/>
+		<item key="selection" value="table"/>
 		<list key="findhistory">
+			<item value="table"/>
+			<item value="getD"/>
+			<item value="selectedProIndex"/>
+			<item value="filename"/>
+			<item value="selected"/>
+			<item value="listener"/>
+			<item value="item"/>
+			<item value="getProductList"/>
+			<item value="download"/>
+			<item value="flag"/>
 			<item value="subIdxList"/>
 			<item value="System.out"/>
 			<item value="regist"/>
 			<item value="center"/>
 			<item value="west"/>
-			<item value="setDateInfo"/>
-			<item value="insert"/>
-			<item value="title"/>
-			<item value="font"/>
-			<item value="setpre"/>
-			<item value="props"/>
-			<item value="showHide"/>
-			<item value="action"/>
-			<item value="showhide"/>
-			<item value="setV"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>
@@ -35,8 +35,8 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1348"/>
-		<item key="DIALOG_Y_ORIGIN" value="260"/>
+		<item key="DIALOG_X_ORIGIN" value="1138"/>
+		<item key="DIALOG_Y_ORIGIN" value="146"/>
 		<item key="DIALOG_WIDTH" value="270"/>
 		<item key="DIALOG_HEIGHT" value="360"/>
 		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-21|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>

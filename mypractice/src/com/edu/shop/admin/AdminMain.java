@@ -32,18 +32,22 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
 
+import com.edu.shop.domain.Product;
 import com.edu.shop.domain.SubCategory;
 import com.edu.shop.domain.TopCategory;
+import com.edu.shop.model.repository.ProductDAO;
 import com.edu.shop.model.repository.SubCategoryDAO;
 import com.edu.shop.model.repository.TopCategoryDAO;
+import com.edu.shop.model.table.ProductModel;
 
 import util.StringUtil;
 
 public class AdminMain extends JFrame implements ActionListener{
 	TopCategoryDAO topDAO = new TopCategoryDAO();
 	SubCategoryDAO subDAO = new SubCategoryDAO();
-	
+	public ProductDAO productDAO = new ProductDAO();
 	
 	//서쪽 영역 
 	JPanel p_west;
@@ -81,6 +85,7 @@ public class AdminMain extends JFrame implements ActionListener{
 	
 	URL url;
 	Image image;
+	TableModel model;
 	
 	public AdminMain() {
 		//서쪽
@@ -91,7 +96,6 @@ public class AdminMain extends JFrame implements ActionListener{
 		t_brand = new JTextField();
 		t_price = new JTextField();
 		preview = new JPanel() {
-			@Override
 			protected void paintComponent(Graphics g) {
 				Graphics2D g2 = (Graphics2D)g;
 				g2.clearRect(0, 0, 140, 140);
@@ -135,7 +139,7 @@ public class AdminMain extends JFrame implements ActionListener{
 		p_search.add(t_keyword);
 		p_search.add(bt_search);
 		
-		table = new JTable(7,6);
+		table = new JTable(model = new ProductModel(this));
 		scroll = new JScrollPane(table);
 		
 		p_center.setLayout(new BorderLayout());
@@ -275,7 +279,6 @@ public class AdminMain extends JFrame implements ActionListener{
 		}
 	}
 	
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if(obj.equals(bt_preview)) {

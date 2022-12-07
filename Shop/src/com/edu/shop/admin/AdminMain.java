@@ -100,7 +100,6 @@ public class AdminMain extends JFrame implements ActionListener{
 	Image image2; //동쪽 영역에서 미리보기될 이미지
 	String dir = "D:\\java_workspace2\\data\\shop\\product\\"; //이미지가 저장되는 위치
 	String filename;
-	int selectedProIndex;
 	public AdminMain() {
 		topCategoryDAO = new TopCategoryDAO();
 		subCategoryDAO = new SubCategoryDAO();
@@ -262,8 +261,6 @@ public class AdminMain extends JFrame implements ActionListener{
 				box_top2.setSelectedIndex(i);
 			}
 		}
-		selectedProIndex = currentProduct.getProduct_idx();
-		
 		String subName = currentProduct.getSubcategory().getSubcategory_name();
 		getSubList(box_sub2, subIdxList2, currentProduct.getSubcategory().getTopcategory().getTopcategory_idx());
 		for (int i = 0; i < box_sub2.getItemCount(); i++) {
@@ -275,6 +272,7 @@ public class AdminMain extends JFrame implements ActionListener{
 		t_brand2.setText(currentProduct.getBrand());
 		t_price2.setText(currentProduct.getPrice()+"");
 		t_url2.setText(currentProduct.getFilename());
+		filename = currentProduct.getFilename();
 		preview(preview2, currentProduct.getFilename());
 	}
 	
@@ -360,19 +358,19 @@ public class AdminMain extends JFrame implements ActionListener{
 		canvas.repaint();
 	}
 
-	public void preview2() {
-		String filename = currentProduct.getFilename();
-		File file = new File(dir+filename);
-		if (!filename.equals("")) {
-			try {
-				image2 = ImageIO.read(file);
-			} catch (IOException e) {
-				System.out.println("이미지 못가져왔쪙");
-				e.printStackTrace();
-			}
-			preview2.repaint();
-		}
-	}
+//	public void preview2() {
+//		String filename = currentProduct.getFilename();
+//		File file = new File(dir+filename);
+//		if (!filename.equals("")) {
+//			try {
+//				image2 = ImageIO.read(file);
+//			} catch (IOException e) {
+//				System.out.println("이미지 못가져왔쪙");
+//				e.printStackTrace();
+//			}
+//			preview2.repaint();
+//		}
+//	}
 	
 	//모든 상품 레코드 가져오기, 단 하위카테고리와 조인된 상태로
 	public void getProductList() {
@@ -409,7 +407,6 @@ public class AdminMain extends JFrame implements ActionListener{
 	}
 	
 	public void edit() {
-		//ImageManager.deleteFile(dir+filename);
 		if(t_url2.getText().length()>15) {
 			boolean result = ImageManager.deleteFile(dir + currentProduct.getFilename());
 			System.out.println("사진교체요청");
@@ -430,7 +427,7 @@ public class AdminMain extends JFrame implements ActionListener{
 		product.setProduct_idx(currentProduct.getProduct_idx());
 		
 		if(productDAO.update(product) != 0) {
-			System.out.println("수정완료");
+			JOptionPane.showMessageDialog(this, "수정완료");
 			getProductList();
 		} else {
 			System.out.println("수정실패");
@@ -438,7 +435,7 @@ public class AdminMain extends JFrame implements ActionListener{
 	}
 	
 	public void del() {
-		if(selectedProIndex==0) {
+		if(currentProduct==null) {
 			JOptionPane.showMessageDialog(this, "선택된 상품이 없습니다\n먼저 상품을 선택해주세요");
 		} else if(JOptionPane.showConfirmDialog(this, "삭제하시겠습니까?") == JOptionPane.OK_OPTION) {
 			boolean flag = ImageManager.deleteFile(dir+filename);
@@ -446,7 +443,7 @@ public class AdminMain extends JFrame implements ActionListener{
 			if(!flag) {
 				System.out.println("파일삭제실패");
 			} else {
-				 result = productDAO.delete(selectedProIndex);
+				 result = productDAO.delete(currentProduct);
 			}
 			if (result>0) {
 				JOptionPane.showMessageDialog(this, "삭제성공");

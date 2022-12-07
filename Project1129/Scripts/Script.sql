@@ -127,3 +127,11 @@ START WITH 1;
 SELECT s.subcategory_idx, subcategory_name, product_idx, product_name, brand, price, filename
 FROM SUBCATEGORY s , PRODUCT p WHERE s.SUBCATEGORY_IDX = p.SUBCATEGORY_IDX;
 
+SELECT t.topcategory_idx, topcategory_name, s.subcategory_idx, subcategory_name, product_idx, product_name, brand, price, filename
+FROM topcategory t, subcategory s, product p
+WHERE t.topcategory_idx = s.topcategory_idx
+AND s.subcategory_idx = p.subcategory_idx
+AND product_idx = 1;
+
+SELECT * FROM top
+
