@@ -28,8 +28,10 @@ public class SubCategoryDAO {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				SubCategory subcategory = new SubCategory();
+				TopCategory topcategory = new TopCategory();
+				subcategory.setTopcategory(topcategory);
 				subcategory.setSubcategory_idx(rs.getInt("subcategory_idx"));
-				subcategory.setTopcategory_idx(topcategory_idx);
+				subcategory.getTopcategory().setTopcategory_idx(topcategory_idx);
 				subcategory.setSubcategory_name(rs.getString("subcategory_name"));
 				list.add(subcategory);
 			}

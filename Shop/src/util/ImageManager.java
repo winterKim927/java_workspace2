@@ -1,6 +1,7 @@
 package util;
 
 import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -52,5 +53,11 @@ public class ImageManager {
 			e.printStackTrace();
 		} 
 		return image;
+	}
+	
+	//이미지 삭제
+	public static boolean deleteFile(String path) {
+		File file = new File(path);
+		return file.delete();
 	}
 }
