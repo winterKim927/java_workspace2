@@ -6,8 +6,13 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="table"/>
+		<item key="selection" value="edit"/>
 		<list key="findhistory">
+			<item value="edit"/>
+			<item value="update"/>
+			<item value="preview"/>
+			<item value="menuList"/>
+			<item value="main"/>
 			<item value="table"/>
 			<item value="getD"/>
 			<item value="selectedProIndex"/>
@@ -18,11 +23,6 @@
 			<item value="getProductList"/>
 			<item value="download"/>
 			<item value="flag"/>
-			<item value="subIdxList"/>
-			<item value="System.out"/>
-			<item value="regist"/>
-			<item value="center"/>
-			<item value="west"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>

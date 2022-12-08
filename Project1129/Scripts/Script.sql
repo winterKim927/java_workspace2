@@ -62,6 +62,9 @@ VALUES(seq_topcategory.nextval, '액세서리');
 INSERT INTO topcategory(topcategory_idx, TOPCATEGORY_name) 
 VALUES(seq_topcategory.nextval, '신발');
 
+INSERT INTO topcategory(topcategory_idx, TOPCATEGORY_name) 
+VALUES(seq_topcategory.nextval, '모자');
+
 INSERT INTO subcategory(SUBCATEGORY_IDX, topcategory_idx, SUBCATEGORY_name) 
 VALUES(seq_subcategory.nextval, 1,'가디건'); 
 
@@ -133,5 +136,9 @@ WHERE t.topcategory_idx = s.topcategory_idx
 AND s.subcategory_idx = p.subcategory_idx
 AND product_idx = 1;
 
-SELECT * FROM top
+SELECT s.subcategory_idx AS subcategory_idx, subcategory_name, product_idx, product_name, brand, price, filename
+FROM topcategory t, subcategory s, product p
+WHERE t.TOPCATEGORY_IDX  = s.TOPCATEGORY_IDX 
+AND s.SUBCATEGORY_IDX = p.SUBCATEGORY_IDX 
+AND topcategory_name = '액세서리';
 
