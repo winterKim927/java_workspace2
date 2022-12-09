@@ -410,16 +410,15 @@ public class AdminMain extends JFrame implements ActionListener{
 	}
 	
 	public void edit() {
-		boolean result = false;
 		if(t_url2.getText().length()>15 && !t_url2.getText().equals(filename)) {
-			result = ImageManager.deleteFile(dir + currentProduct.getFilename());
+			boolean result = ImageManager.deleteFile(dir + currentProduct.getFilename());
 			System.out.println("사진교체요청");
+			if(result) {
+				download(t_url2);
+			}
 		} else {
 			System.out.println("사진유지원함");
 			filename = currentProduct.getFilename();
-		}
-		if(result) {
-			download(t_url2);
 		}
 		
 		Product product = new Product();
@@ -505,7 +504,7 @@ public class AdminMain extends JFrame implements ActionListener{
 
 }
 
-
+//저장완료했습니다
 
 
 
